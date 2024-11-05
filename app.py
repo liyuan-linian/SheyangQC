@@ -9,7 +9,7 @@ from sqlalchemy import and_
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'data.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'data1.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.secret_key = '11223344'
@@ -17,6 +17,7 @@ app.secret_key = '11223344'
 db = SQLAlchemy(app)
 
 
+#
 class User(UserMixin, db.Model):
     __tablename__ = 'tb_user'
     id = db.Column(db.Integer, primary_key=True, comment='ID', autoincrement=True)
@@ -25,28 +26,42 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(20), nullable=False, comment='Password')
 
 
-class Data(db.Model):
-    __tablename__ = 'tb_data'
-    recDateTime = db.Column(db.DateTime, comment="受理日期")
-    recUnit = db.Column(db.String(20), comment="受理单位")
-    id = db.Column(db.String(20), primary_key=True, index=True, comment='工单编号')
-    electionID = db.Column(db.String(20), comment="发电户号")
-    projectName = db.Column(db.String(20), comment="发电项目名称")
-    projectType = db.Column(db.String(20), comment="项目类型")
-    projectArchivingResponsible = db.Column(db.String(20), comment="项目归档负责人")
+# 由于每个项目中存在多个环节 故单独的建立环节模型  采用一对多的数据库关系  一个Data（项目）模型 对应多个Step（环节）模型
+# 环节模型
+class Step(db.Model):
+    __tablename__ = 'tb_step'
     bussinessProcessName = db.Column(db.String(20), comment="业务环节名称")
-    nowProcessName = db.Column(db.String(20), comment="当前环节名称")
-    notArchivingProcessNotIncludeNow = db.Column(db.String(20), nullable=True, comment="未完成归档环节（除当前环节）")
+    moneyPerson = db.Column(db.String(20),comment="收资人")
+    daysLeftProcess = db.Column(db.Integer, comment="环节归档剩余天数")
     processBussinessStartDateTime = db.Column(db.DateTime, nullable=True, comment="业务环节开始时间")
     processBussinessEndDateTime = db.Column(db.DateTime, nullable=True, comment="业务环节结束时间")
     archiveProcess = db.Column(db.String(20), comment="归档进度")
-    archiveDateTime = db.Column(db.DateTime, nullable=True, comment="归档时间")
-    numberofNotArchivingNotIncludeNow = db.Column(db.Integer, comment="项目剩余未归档环节数（除当前环节）")
+    archiveDate = db.Column(db.Date, nullable=True, comment="归档时间")
+
+
+
+# 项目模型
+class Data(db.Model):
+    __tablename__ = 'tb_data'
+    No = db.Column(db.Integer, primary_key=True, comment="序号")
+    recDateTime = db.Column(db.DateTime, comment="受理日期")
+    recUnit = db.Column(db.String(20), comment="受理单位")
+    projectName = db.Column(db.String(20), comment="发电项目名称")
+    id = db.Column(db.String(20), index=True, comment='工单编号')
+    electionID = db.Column(db.String(20), comment="发电户号")
+    projectType = db.Column(db.String(20), comment="项目类型")  # 自然人 or 非自然人
+    projectArchivingResponsible = db.Column(db.String(20), comment="项目归档负责人")
+    nowProcessName = db.Column(db.String(20), comment="当前环节名称")
+    notArchivingProcessNotIncludeNow = db.Column(db.String(20), nullable=True, comment="未完成归档环节（除当前环节）")
+    numberofNotArchivingNotIncludeNow = db.Column(db.Integer, comment="项目剩余未归档环节数")
     projectGridConnectionDate = db.Column(db.Date, nullable=True, comment="项目并网日期")
-    daysLeft = db.Column(db.Integer,comment="项目归档剩余天数")
+    daysLeftProject = db.Column(db.Integer, comment="项目归档剩余天数")
+
+
 
     def __repr__(self):
         return f"Post('{self.id}')"
+
 
 # LoginManager 储存用户登录配置相关
 login_manager = LoginManager()
@@ -120,10 +135,10 @@ def index():
 def hello():
     return render_template('hello.html')
 
+
 with app.app_context():
     db.drop_all()
     db.create_all()
-
 
 if __name__ == '__main__':
     db.drop_all()
