@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/jquery-ui.min.css">
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/jquery-ui.min.js"></script>
+
+    <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
+     <script language="JavaScript">
+        function method(choo){
+            if (choo==1){
+               window.open("projectInfo.html",'new','location=no,toolbar=no');
+            }
+            if(choo==2){
+                window.open("contactInfo.html",'new','location=no,toolbar=no');
+            }
+            if(choo==3){
+                window.open("conclusionInfo.html",'new','location=no,toolbar=no');
+            }
+            if(choo=='update'){
+                window.open('update.html','new','location=no,toolbar=no')
+            }
+
+        }
+    </script >
+    <style type="text/css">
+
+        th,td{
+            border: 1px solid #999;
+            text-align: center;
+            padding: 20px 0;
+        }
+        table thead tr{
+            background-color: #008c8c;
+            color: #fff;
+        }
+        table body tr:nth-child(odd){
+            background-color: #eee;
+        }
+        table tbody tr:hover{
+            background-color: #ccc;
+        }
+        table tbody tr td:first-child{
+            color: #f40;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>国网射阳县供电公司分布式光伏项目归档跟踪管控平台</title>
+</head>
+
+<body>
+<div>
+    <h1 class="head" style="text-align: center;"> 国网射阳县供电公司分布式光伏项目归档跟踪管控平台</h1>
+    <p style="text-align: right;"> <input type="button" value="更新记录" style="margin-right: 15px" onclick="method('update')"></input> <a href="index.html" style="margin-right: 15px">及时率排名</a>  <a href="index.html">未归档统计</a></p>
+</div>
+
+<div style="text-align: center;">
+    <div style="display: inline-block; margin-right: 30px">
+        <h4 style="text-align: center"> 您的身份是：{{ current_user.nameZH }} </h4>
+    </div>
+    <div style="display: inline-block;">
+        <h4> <a href="login" style="margin-right: 15px"> 切换账号</a>  <a href="logout"> 退出登录</a></h4>
+    </div>
+</div>
+    <p style="display: inline-block;"> 项目管理单位</p>
+    <select name="select" style="display: inline-block;width: 80px; margin-right: 40px">
+        <option> 城区</option>
+        <option> 特庸</option>
+        <option> 盘湾</option>
+        <option> 长荡</option>
+        <option> 兴桥</option>
+        <option> 陈洋</option>
+        <option> 海河</option>
+        <option> 四明</option>
+        <option> 合德</option>
+        <option> 黄沙港</option>
+        <option> 海通</option>
+        <option> 千秋</option>
+        <option> 临海</option>
+    </select>
+<div style="display: inline-block">
+    <p style="display: inline-block;margin-right: 30px">批次日期 <input type="text" id="datepicker"> </p>
+</div>
+
+    <input type="checkbox"> 含已归档
+    <input type="button"  value="导入项目信息"  style="float: right;display: inline-block;margin-top: 10px;margin-right: 20px" onclick="method(1)"></input>
+    <input type="button"  value="导入联系方式"  style="float: right;display: inline-block;margin-top: 10px;margin-right: 20px" onclick="method(2)"></input>
+    <input type="button"  value="导入归档信息"  style="float: right;display: inline-block;margin-top: 10px;margin-right: 20px" onclick="method(3)"></input>
+
+<div>
+<div>
+    <table style="width: 100%;border-collapse: collapse">
+        <thead>
+            <tr>
+                <th> <input type="checkbox"> </th>
+                <th>序号</th>
+                <th>受理日期</th>
+                <th>受理单位</th>
+                <th>发电项目名称</th>
+                <th>发电户号</th>
+                <th>项目类型</th>
+                <th>项目负责人名称</th>
+                <th>业务环节名称</th>
+                <th>收资人</th>
+                <th>环节归档剩/天</th>
+                <th>业务环节开始时间</th>
+                <th>业务环节结束时间</th>
+                <th>归档进度</th>
+                <th>归档时间</th>
+                <th>项目剩余未归档环节</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th> <input type="checkbox"> </th>
+                <th>1</th>
+                <th>2024-9-14</th>
+                <th>营销部</th>
+                <th>新能源光伏发电</th>
+                <th>0001</th>
+                <th>自然人</th>
+                <th>李念</th>
+                <th>业务环节名称</th>
+                <th>收资人</th>
+                <th>20</th>
+                <th>2024-10-10</th>
+                <th>2024-10-11</th>
+                <th>归档进度</th>
+                <th>归档时间</th>
+                <th>项目剩余未归档环节</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+</body>
+</html>

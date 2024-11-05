@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目信息导入</title>
+</head>
+<body>
+    <h1> 导入更新项目信息:</h1>
+<form action=" {{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="myfile"><br>
+    <input type="submit" name="upload" style="margin-top: 15px">
+</form>
+<div>
+    <p> 表格要求采用csv格式，包括项目标段名称、项目类型、受理日期、项目管理单位、受理单位、发电户号（项目信息导入）、项目负责人名称、业务环节名称、收资人、收资人联系方式、项目信息导入人、导入时间等数据</p>
+</div>
+</body>
+</html>

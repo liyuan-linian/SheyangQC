@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>联系人信息导入</title>
+</head>
+<body>
+    <h1> 更新业务环节收资联系人信息:</h1>
+<form action=" {{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="myfile"><br>
+    <input type="submit" name="upload" style="margin-top: 15px">
+</form>
+<div>
+    <p> 表格要求采用csv格式，包括单位名称、联系人（项目负责人、收资人）、手机号</p>
+</div>
+</body>
+</html>
